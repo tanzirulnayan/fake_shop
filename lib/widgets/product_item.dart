@@ -1,3 +1,4 @@
+import 'package:fake_shop/features/product_details/view/product_details_page.dart';
 import 'package:fake_shop/models/product/product.dart';
 import 'package:flutter/material.dart';
 
@@ -56,10 +57,10 @@ class ProductItem extends StatelessWidget {
           ),
           child: GestureDetector(
             onTap: () {
-              // Navigator.of(context).pushNamed(
-              //   ProductDetailsScreen.routeName,
-              //   arguments: product.id,
-              // );
+              Navigator.of(context).pushNamed(
+                ProductDetailsPage.routeName,
+                arguments: product,
+              );
             },
             child: Image.network(
               product.image!,

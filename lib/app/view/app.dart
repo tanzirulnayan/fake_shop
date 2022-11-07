@@ -2,9 +2,11 @@ import 'package:fake_shop/features/home/bloc/home_bloc.dart';
 import 'package:fake_shop/features/home/view/home_page.dart';
 import 'package:fake_shop/features/login/bloc/login_bloc.dart';
 import 'package:fake_shop/features/login/view/login_page.dart';
+import 'package:fake_shop/features/product_details/view/product_details_page.dart';
 import 'package:fake_shop/features/sign_up/bloc/sign_up_bloc.dart';
 import 'package:fake_shop/features/sign_up/view/sign_up_page.dart';
 import 'package:fake_shop/l10n/l10n.dart';
+import 'package:fake_shop/models/product/product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -114,6 +116,8 @@ class App extends StatelessWidget {
               create: (context) => HomeBloc(),
               child: const HomePage(),
             ),
+        ProductDetailsPage.routeName: (ctx) =>
+            const ProductDetailsPage(product: Product()),
       },
     );
   }
