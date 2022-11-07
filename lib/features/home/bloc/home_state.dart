@@ -22,18 +22,19 @@ class HomeLoading extends HomeState {
 }
 
 class HomeSuccess extends HomeState {
-  const HomeSuccess({required this.resStr});
+  const HomeSuccess({required this.productList});
 
-  final String resStr;
+  final List<Product> productList;
+
   @override
-  List<Object> get props => [];
+  List<Object> get props => [productList];
 }
 
 class HomeFailed extends HomeState {
-  const HomeFailed({required this.msg});
+  const HomeFailed({required this.error});
 
-  final String msg;
+  final ErrorModel error;
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [error];
 }

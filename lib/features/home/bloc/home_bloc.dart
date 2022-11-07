@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:fake_shop/core/dio_client.dart';
+import 'package:fake_shop/core/clients/shop_client.dart';
+import 'package:fake_shop/models/common/error_model.dart';
+import 'package:fake_shop/models/product/product.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
@@ -9,15 +11,25 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc() : super(const HomeInitial()) {
     on<HomePageOnLoad>((event, emit) async {
       emit(const HomeLoading());
-      final dioClient = DioClient();
 
-      final responseStr = await dioClient.getProducts();
+      final res = await _shopClient.getProducts();
 
-      if (responseStr.isNotEmpty) {
-        emit(HomeSuccess(resStr: responseStr));
+      if (res.hasError) {
+        emit(
+          HomeFailed(
+            error: ErrorModel(
+              hasError: res.hasError,
+              errorType: res.errorType,
+              errorMessage: res.errorMessage,
+            ),
+          ),
+        );
       } else {
-        emit(const HomeFailed(msg: 'Oops! Something went wrong.'));
+        emit(
+          HomeSuccess(productList: res.productList),
+        );
       }
     });
   }
+  final _shopClient = ShopClient();
 }

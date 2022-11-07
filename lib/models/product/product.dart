@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
-import 'package:fake_shop/models/fake_product/rating.dart';
+import 'package:fake_shop/models/product/rating.dart';
 
-class FakeProduct extends Equatable {
-  const FakeProduct({
+class Product extends Equatable {
+  const Product({
     this.id,
     this.title,
     this.price,
@@ -15,7 +15,7 @@ class FakeProduct extends Equatable {
     this.rating,
   });
 
-  factory FakeProduct.fromMap(Map<String, dynamic> data) => FakeProduct(
+  factory Product.fromMap(Map<String, dynamic> data) => Product(
         id: data['id'] as int?,
         title: data['title'] as String?,
         price: (data['price'] as num?)?.toDouble(),
@@ -27,8 +27,8 @@ class FakeProduct extends Equatable {
             : Rating.fromMap(data['rating'] as Map<String, dynamic>),
       );
 
-  factory FakeProduct.fromJson(String data) {
-    return FakeProduct.fromMap(json.decode(data) as Map<String, dynamic>);
+  factory Product.fromJson(String data) {
+    return Product.fromMap(json.decode(data) as Map<String, dynamic>);
   }
 
   final int? id;
@@ -51,7 +51,7 @@ class FakeProduct extends Equatable {
 
   String toJson() => json.encode(toMap());
 
-  FakeProduct copyWith({
+  Product copyWith({
     int? id,
     String? title,
     double? price,
@@ -60,7 +60,7 @@ class FakeProduct extends Equatable {
     String? image,
     Rating? rating,
   }) {
-    return FakeProduct(
+    return Product(
       id: id ?? this.id,
       title: title ?? this.title,
       price: price ?? this.price,

@@ -29,10 +29,10 @@ class HomePage extends StatelessWidget {
                         return const LinearProgressIndicator();
                       }
                       if (state is HomeSuccess) {
-                        return Text(state.resStr);
+                        return Text(state.productList[0].price.toString());
                       }
                       if (state is HomeFailed) {
-                        return Text(state.msg);
+                        return Text(state.error.errorMessage);
                       }
                       return Container();
                     },
