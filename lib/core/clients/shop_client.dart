@@ -41,8 +41,7 @@ class ShopClient {
       id: id,
     );
 
-    final product = Product.fromJson(jsonEncode(result.responseStr));
-
+    final product = Product.fromJson(result.responseStr);
 
     productResponse
       ..product = result.hasError ? const Product() : product
