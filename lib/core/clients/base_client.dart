@@ -98,6 +98,53 @@ class BaseClient {
     return dioResponse;
   }
 
+  Future<DioResponse> dioPost({
+    required String actionUrl,
+    required Map<String, dynamic> queryParams,
+  }) async {
+    dio.options.responseType = ResponseType.json;
+    final url = ApiSettings.baseUrl + actionUrl;
+    var dioResponse = DioResponse(
+      responseStr: '',
+      hasError: true,
+      errorMessage: 'Cannot fetch data.',
+    );
+
+    try {
+      final Response<dynamic> response = await dio
+          .post<String>(
+            url,
+            options: Options(
+              responseType: ResponseType.json,
+              headers: ApiSettings.baseHeaders,
+            ),
+            queryParameters: queryParams,
+          )
+          .timeout(const Duration(seconds: 60))
+          .onError((error, stackTrace) {
+        throw Exception(error);
+      });
+
+      if (response.statusCode == 200) {
+        //TO DO: implement server error check here
+        dioResponse = DioResponse(
+          responseStr: response.toString(),
+          hasError: false,
+          errorMessage: '',
+        );
+      }
+    } catch (error) {
+      dioResponse = DioResponse(
+        responseStr: '',
+        hasError: true,
+        //TO DO: test handle dio error for all the cases
+        errorMessage: ErrorHelper.handleDioError(error) as String,
+      );
+    }
+
+    return dioResponse;
+  }
+
   Future<DioResponse> dioDelete({
     required String actionUrl,
     required int id,

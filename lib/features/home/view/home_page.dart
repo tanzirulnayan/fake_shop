@@ -1,3 +1,4 @@
+import 'package:fake_shop/features/add_product/view/add_product_page.dart';
 import 'package:fake_shop/features/home/bloc/home_bloc.dart';
 import 'package:fake_shop/features/product_details/view/product_details_page.dart';
 import 'package:fake_shop/models/product/product.dart';
@@ -10,8 +11,8 @@ class HomePage extends StatelessWidget {
 
   Widget buildProductItem({
     required BuildContext context,
-  required Product product,
-  required List<Product> productList,
+    required Product product,
+    required List<Product> productList,
   }) {
     return Padding(
       padding: const EdgeInsets.all(8),
@@ -26,9 +27,12 @@ class HomePage extends StatelessWidget {
             ),
             trailing: IconButton(
               onPressed: () {
-                BlocProvider.of<HomeBloc>(context)
-                        .add( DeleteProductOnTap(id: product.id??-1,
-                         products: productList,),);
+                BlocProvider.of<HomeBloc>(context).add(
+                  DeleteProductOnTap(
+                    id: product.id ?? -1,
+                    products: productList,
+                  ),
+                );
               },
               icon: const Icon(Icons.delete),
               color: Theme.of(context).canvasColor,
@@ -106,6 +110,12 @@ class HomePage extends StatelessWidget {
             ],
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.of(context).pushNamed(
+          AddProductPage.routeName,
+        ),
+        child: const Icon(Icons.add),
       ),
     );
   }
