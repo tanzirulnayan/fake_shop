@@ -30,6 +30,31 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         );
       }
     });
+
+    on<DeleteProductOnTap>((event, emit) async {
+      emit(const HomeLoading());
+
+      final res = await _shopClient.deleteProduct( id: event.id);
+
+      if (res.hasError) {
+        emit(
+          HomeFailed(
+            error: ErrorModel(
+              hasError: res.hasError,
+              errorType: res.errorType,
+              errorMessage: res.errorMessage,
+            ),
+          ),
+        );
+      } else {
+        event.products.removeWhere(
+          (element) => element.id == res.product.id,
+          );
+        emit(
+          HomeSuccess(productList: event.products),
+        );
+      }
+    });
   }
   final _shopClient = ShopClient();
 }

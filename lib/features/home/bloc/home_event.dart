@@ -13,3 +13,13 @@ class HomePageOnLoad extends HomeEvent {
   @override
   List<Object> get props => [];
 }
+
+class DeleteProductOnTap extends HomeEvent {
+  const DeleteProductOnTap({required this.id, required this.products});
+
+  final int id;
+  final List<Product> products;
+
+  @override
+  List<Object> get props => [id, products];
+}

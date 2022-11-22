@@ -97,4 +97,50 @@ class BaseClient {
 
     return dioResponse;
   }
+
+  Future<DioResponse> dioDelete({
+    required String actionUrl,
+    required int id,
+  }) async {
+    dio.options.responseType = ResponseType.json;
+    final url = '${ApiSettings.baseUrl}$actionUrl/$id';
+    var dioResponse = DioResponse(
+      responseStr: '',
+      hasError: true,
+      errorMessage: 'Cannot fetch data.',
+    );
+
+    try {
+      final Response<dynamic> response = await dio
+          .delete<String>(
+            url,
+            options: Options(
+              responseType: ResponseType.json,
+              headers: ApiSettings.baseHeaders,
+            ),
+          )
+          .timeout(const Duration(seconds: 60))
+          .onError((error, stackTrace) {
+        throw Exception(error);
+      });
+
+      if (response.statusCode == 200) {
+        //TO DO: implement server error check here
+        dioResponse = DioResponse(
+          responseStr: response.toString(),
+          hasError: false,
+          errorMessage: '',
+        );
+      }
+    } catch (error) {
+      dioResponse = DioResponse(
+        responseStr: '',
+        hasError: true,
+        //TO DO: test handle dio error for all the cases
+        errorMessage: ErrorHelper.handleDioError(error) as String,
+      );
+    }
+
+    return dioResponse;
+  }
 }

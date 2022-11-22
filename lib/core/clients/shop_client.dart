@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:fake_shop/core/clients/base_client.dart';
 import 'package:fake_shop/core/constants/action_url.dart';
 import 'package:fake_shop/models/product/product.dart';
+import 'package:fake_shop/models/response/product_response.dart';
 import 'package:fake_shop/models/response/products_response.dart';
 
 class ShopClient {
@@ -30,5 +31,25 @@ class ShopClient {
       ..errorMessage = result.errorMessage;
 
     return productsResponse;
+  }
+
+  Future<ProductResponse> deleteProduct({required int id}) async {
+    final productResponse = ProductResponse(product: const Product());
+
+    final result = await _baseClient.dioDelete(
+      actionUrl: ActionUrl.getProducts,
+      id: id,
+    );
+
+    final product = Product.fromJson(jsonEncode(result.responseStr));
+
+
+    productResponse
+      ..product = result.hasError ? const Product() : product
+      ..hasError = result.hasError
+      ..errorType = 'Error'
+      ..errorMessage = result.errorMessage;
+
+    return productResponse;
   }
 }

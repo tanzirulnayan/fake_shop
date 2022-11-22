@@ -1,11 +1,55 @@
 import 'package:fake_shop/features/home/bloc/home_bloc.dart';
-import 'package:fake_shop/widgets/product_item.dart';
+import 'package:fake_shop/features/product_details/view/product_details_page.dart';
+import 'package:fake_shop/models/product/product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
   static const routeName = '/home';
+
+  Widget buildProductItem({
+    required BuildContext context,
+  required Product product,
+  required List<Product> productList,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: GridTile(
+          footer: GridTileBar(
+            backgroundColor: Theme.of(context).primaryColor,
+            title: Text(
+              product.title.toString(),
+              textAlign: TextAlign.center,
+            ),
+            trailing: IconButton(
+              onPressed: () {
+                BlocProvider.of<HomeBloc>(context)
+                        .add( DeleteProductOnTap(id: product.id??-1,
+                         products: productList,),);
+              },
+              icon: const Icon(Icons.delete),
+              color: Theme.of(context).canvasColor,
+            ),
+          ),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushNamed(
+                ProductDetailsPage.routeName,
+                arguments: product,
+              );
+            },
+            child: Image.network(
+              product.image!,
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +87,10 @@ class HomePage extends StatelessWidget {
                             crossAxisSpacing: 10,
                             mainAxisSpacing: 10,
                           ),
-                          itemBuilder: (ctx, i) => ProductItem(
+                          itemBuilder: (ctx, i) => buildProductItem(
+                            context: context,
                             product: state.productList.elementAt(i),
+                            productList: state.productList,
                           ),
                         ),
                       ),
