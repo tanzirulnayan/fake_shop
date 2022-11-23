@@ -1,6 +1,6 @@
 import 'package:fake_shop/features/home/view/home_page.dart';
+import 'package:fake_shop/features/local_storage/view/local_storage_page.dart';
 import 'package:fake_shop/features/login/bloc/login_bloc.dart';
-import 'package:fake_shop/features/sign_up/view/sign_up_page.dart';
 import 'package:fake_shop/helpers/constants/lottie_asset.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -299,9 +299,10 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextButton(
-                  onPressed: () =>
-                      Navigator.of(context).pushNamed(SignUpPage.routeName),
-                  child: const Text("Don't have an account? Sign up here."),
+                  onPressed: () => Navigator.of(context).pushNamed(
+                    LocalStoragePage.routeName,
+                  ),
+                  child: const Text('Local storage exaple here.'),
                 ),
               ],
             ),

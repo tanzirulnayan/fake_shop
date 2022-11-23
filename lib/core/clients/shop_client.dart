@@ -95,7 +95,7 @@ class ShopClient {
     final productResponse = ProductResponse(product: const Product());
 
     final result = await _baseClient.dioDelete(
-      actionUrl: ActionUrl.getProducts,
+      actionUrl: ActionUrl.deleteProduct + id.toString(),
       id: id,
     );
 

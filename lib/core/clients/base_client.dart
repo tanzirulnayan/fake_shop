@@ -197,7 +197,7 @@ class BaseClient {
     required int id,
   }) async {
     dio.options.responseType = ResponseType.json;
-    final url = '${ApiSettings.baseUrl}$actionUrl/$id';
+    final url = '${ApiSettings.baseUrl}$actionUrl';
     var dioResponse = DioResponse(
       responseStr: '',
       hasError: true,

@@ -4,11 +4,11 @@ import 'package:fake_shop/features/edit_product/bloc/edit_product_bloc.dart';
 import 'package:fake_shop/features/edit_product/view/edit_product_page.dart';
 import 'package:fake_shop/features/home/bloc/home_bloc.dart';
 import 'package:fake_shop/features/home/view/home_page.dart';
+import 'package:fake_shop/features/local_storage/bloc/local_storage_bloc.dart';
+import 'package:fake_shop/features/local_storage/view/local_storage_page.dart';
 import 'package:fake_shop/features/login/bloc/login_bloc.dart';
 import 'package:fake_shop/features/login/view/login_page.dart';
 import 'package:fake_shop/features/product_details/view/product_details_page.dart';
-import 'package:fake_shop/features/sign_up/bloc/sign_up_bloc.dart';
-import 'package:fake_shop/features/sign_up/view/sign_up_page.dart';
 import 'package:fake_shop/l10n/l10n.dart';
 import 'package:fake_shop/models/product/product.dart';
 import 'package:flutter/material.dart';
@@ -112,9 +112,9 @@ class App extends StatelessWidget {
               create: (context) => LoginBloc(),
               child: const LoginPage(),
             ),
-        SignUpPage.routeName: (ctx) => BlocProvider(
-              create: (context) => SignUpBloc(),
-              child: const SignUpPage(),
+        LocalStoragePage.routeName: (ctx) => BlocProvider(
+              create: (context) => LocalStorageBloc(),
+              child: const LocalStoragePage(),
             ),
         HomePage.routeName: (ctx) => BlocProvider(
               create: (context) => HomeBloc(),
