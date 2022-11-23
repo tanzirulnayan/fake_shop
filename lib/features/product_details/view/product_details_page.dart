@@ -1,3 +1,4 @@
+import 'package:fake_shop/features/edit_product/view/edit_product_page.dart';
 import 'package:fake_shop/models/product/product.dart';
 import 'package:flutter/material.dart';
 
@@ -7,7 +8,6 @@ class ProductDetailsPage extends StatelessWidget {
     required this.product,
   });
   static const routeName = '/productDetails';
-
   final Product product;
 
   @override
@@ -61,6 +61,15 @@ class ProductDetailsPage extends StatelessWidget {
               ],
             ),
           ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.of(context).pushNamed(
+          EditProductPage.routeName,
+          arguments: product,
+        ),
+        child: const Icon(
+          Icons.edit_outlined,
         ),
       ),
     );

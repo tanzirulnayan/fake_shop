@@ -1,23 +1,27 @@
-import 'package:fake_shop/features/add_product/bloc/add_product_bloc.dart';
+import 'package:fake_shop/features/edit_product/bloc/edit_product_bloc.dart';
 import 'package:fake_shop/models/product/product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AddProductPage extends StatefulWidget {
-  const AddProductPage({super.key});
-  static const routeName = '/addProduct';
+class EditProductPage extends StatefulWidget {
+  const EditProductPage({
+    super.key,
+    required this.product,
+  });
+  static const routeName = '/editProduct';
+  final Product product;
 
   @override
-  State<AddProductPage> createState() => _AddProductPageState();
+  State<EditProductPage> createState() => _EditProductPageState();
 }
 
-class _AddProductPageState extends State<AddProductPage> {
+class _EditProductPageState extends State<EditProductPage> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController imageController = TextEditingController();
   final TextEditingController categoryController = TextEditingController();
-  final GlobalKey<FormState> _addProductFormKey = GlobalKey();
+  final GlobalKey<FormState> _editProductFormKey = GlobalKey();
 
   @override
   void dispose() {
@@ -31,6 +35,14 @@ class _AddProductPageState extends State<AddProductPage> {
 
   @override
   Widget build(BuildContext context) {
+    final product = ModalRoute.of(context)!.settings.arguments! as Product;
+
+    titleController.text = product.title!;
+    priceController.text = product.price!.toString();
+    descriptionController.text = product.description!;
+    imageController.text = product.image!;
+    categoryController.text = product.category!;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add Product'),
@@ -39,15 +51,15 @@ class _AddProductPageState extends State<AddProductPage> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Form(
-            key: _addProductFormKey,
+            key: _editProductFormKey,
             child: Column(
               children: [
-                BlocConsumer<AddProductBloc, AddProductState>(
+                BlocConsumer<EditProductBloc, EditProductState>(
                   builder: (context, state) {
                     return Container();
                   },
                   listener: (context, state) {
-                    if (state is AddProductSuccess) {
+                    if (state is EditProductSuccess) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(state.message),
@@ -55,7 +67,7 @@ class _AddProductPageState extends State<AddProductPage> {
                         ),
                       );
                     }
-                    if (state is AddProductFailed) {
+                    if (state is EditProductFailed) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(state.message),
@@ -341,7 +353,7 @@ class _AddProductPageState extends State<AddProductPage> {
                         width: double.maxFinite,
                         child: ElevatedButton.icon(
                           onPressed: () {
-                            if (_addProductFormKey.currentState!.validate()) {
+                            if (_editProductFormKey.currentState!.validate()) {
                               final product = Product(
                                 title: titleController.text,
                                 price: double.parse(priceController.text),
@@ -350,11 +362,11 @@ class _AddProductPageState extends State<AddProductPage> {
                                 category: categoryController.text,
                               );
 
-                              BlocProvider.of<AddProductBloc>(context).add(
-                                AddProductOnTap(
-                                  product: product,
-                                ),
-                              );
+                              // BlocProvider.of<EditProductBloc>(context).add(
+                              //   EditProductOnTap(
+                              //     product: product,
+                              //   ),
+                              // );
                             }
                           },
                           style: ButtonStyle(
@@ -372,12 +384,12 @@ class _AddProductPageState extends State<AddProductPage> {
                             ),
                           ),
                           icon: const Icon(
-                            Icons.add_outlined,
+                            Icons.edit_outlined,
                             size: 18,
                             color: Colors.white,
                           ),
                           label: const Text(
-                            'Add Product',
+                            'Edit Product',
                             style: TextStyle(
                               fontSize: 18,
                               color: Colors.white,

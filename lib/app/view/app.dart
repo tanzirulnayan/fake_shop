@@ -1,5 +1,7 @@
 import 'package:fake_shop/features/add_product/bloc/add_product_bloc.dart';
 import 'package:fake_shop/features/add_product/view/add_product_page.dart';
+import 'package:fake_shop/features/edit_product/bloc/edit_product_bloc.dart';
+import 'package:fake_shop/features/edit_product/view/edit_product_page.dart';
 import 'package:fake_shop/features/home/bloc/home_bloc.dart';
 import 'package:fake_shop/features/home/view/home_page.dart';
 import 'package:fake_shop/features/login/bloc/login_bloc.dart';
@@ -123,6 +125,12 @@ class App extends StatelessWidget {
         AddProductPage.routeName: (ctx) => BlocProvider(
               create: (context) => AddProductBloc(),
               child: const AddProductPage(),
+            ),
+        EditProductPage.routeName: (ctx) => BlocProvider(
+              create: (context) => EditProductBloc(),
+              child: const EditProductPage(
+                product: Product(),
+              ),
             ),
       },
     );
