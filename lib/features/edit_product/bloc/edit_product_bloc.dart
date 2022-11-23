@@ -11,25 +11,21 @@ class EditProductBloc extends Bloc<EditProductEvent, EditProductState> {
     on<EditProductOnTap>((event, emit) async {
       emit(EditProductLoading());
 
-      // final res = await _shopClient.editProduct(prod: event.product);
+      final res = await _shopClient.editProduct(prod: event.product);
 
-      // if (res.hasError) {
-      //   emit(
-      //     EditProductFailed(
-      //       message: res.errorMessage,
-      //     ),
-      //   );
-      // } else {
-      //   emit(
-      //     const EditProductSuccess(
-      //       message: 'Product edited successfully',
-      //     ),
-      //   );
-      // }
-
-      emit(
-        const EditProductSuccess(message: 'done'),
-      );
+      if (res.hasError) {
+        emit(
+          EditProductFailed(
+            message: res.errorMessage,
+          ),
+        );
+      } else {
+        emit(
+          const EditProductSuccess(
+            message: 'Product edited successfully',
+          ),
+        );
+      }
     });
   }
   final _shopClient = ShopClient();

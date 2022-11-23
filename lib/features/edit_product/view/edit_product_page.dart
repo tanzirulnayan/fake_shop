@@ -354,7 +354,8 @@ class _EditProductPageState extends State<EditProductPage> {
                         child: ElevatedButton.icon(
                           onPressed: () {
                             if (_editProductFormKey.currentState!.validate()) {
-                              final product = Product(
+                              final prod = Product(
+                                id: product.id,
                                 title: titleController.text,
                                 price: double.parse(priceController.text),
                                 description: descriptionController.text,
@@ -362,11 +363,11 @@ class _EditProductPageState extends State<EditProductPage> {
                                 category: categoryController.text,
                               );
 
-                              // BlocProvider.of<EditProductBloc>(context).add(
-                              //   EditProductOnTap(
-                              //     product: product,
-                              //   ),
-                              // );
+                              BlocProvider.of<EditProductBloc>(context).add(
+                                EditProductOnTap(
+                                  product: prod,
+                                ),
+                              );
                             }
                           },
                           style: ButtonStyle(

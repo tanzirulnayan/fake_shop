@@ -47,7 +47,36 @@ class ShopClient {
     };
 
     final result = await _baseClient.dioPost(
-      actionUrl: ActionUrl.getProducts,
+      actionUrl: ActionUrl.addProduct,
+      queryParams: params,
+    );
+
+    final product = Product.fromJson(result.responseStr);
+
+    productResponse
+      ..product = result.hasError ? const Product() : product
+      ..hasError = result.hasError
+      ..errorType = 'Error'
+      ..errorMessage = result.errorMessage;
+
+    return productResponse;
+  }
+
+  Future<ProductResponse> editProduct({
+    required Product prod,
+  }) async {
+    final productResponse = ProductResponse(product: const Product());
+
+    final params = <String, dynamic>{
+      'title': prod.title,
+      'price': prod.price,
+      'description': prod.description,
+      'image': prod.image,
+      'category': prod.category
+    };
+
+    final result = await _baseClient.dioPut(
+      actionUrl: ActionUrl.editProduct + prod.id.toString(),
       queryParams: params,
     );
 
